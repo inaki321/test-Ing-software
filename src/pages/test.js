@@ -119,7 +119,7 @@ function Test() {
                 const y = keypoint.y;
                 ctx.beginPath();
                 ctx.arc(x, y, 4, 0, 2 * Math.PI);
-                ctx.fillStyle = "red";
+                ctx.fillStyle = "green";
                 ctx.fill();
             }
             //Draw Esqueleton 
@@ -133,14 +133,14 @@ function Test() {
                 ctx.moveTo(poseEsqueleto[keypoints[0]].x * 1, poseEsqueleto[keypoints[0]].y * 1);
                 ctx.lineTo(poseEsqueleto[keypoints[1]].x * 1, poseEsqueleto[keypoints[1]].y * 1);
                 ctx.lineWidth = 2;
-                ctx.strokeStyle = "red";
+                ctx.strokeStyle = "green";
                 ctx.stroke();
             });
         } else {
             canvas.current.width = "0px";
             canvas.current.height = "0px";
         }
-        if (results.keypoints3D[26].score < 0.75) {
+        if (results.keypoints3D[26].score < 0.75 && results.keypoints3D[25].score < 0.75) {
             return;
         }
 
@@ -172,24 +172,19 @@ function Test() {
             setcurlReps(curlReps + 1);
         }
         //knees
-        if (((rightKneeAngle <= (standingPoses[positionIndex][0] + 35) && rightKneeAngle >= (standingPoses[positionIndex][0] - 35)) ||
-            (leftKneeAngle <= (standingPoses[positionIndex][1] + 35) && leftKneeAngle >= (standingPoses[positionIndex][1] - 35)))
+        if (standReps < 5 && ((rightKneeAngle <= (standingPoses[positionIndex][0] + 15) && rightKneeAngle >= (standingPoses[positionIndex][0] - 15)) ||
+            (leftKneeAngle <= (standingPoses[positionIndex][1] + 15) && leftKneeAngle >= (standingPoses[positionIndex][1] - 15)))
         ) {
             setpositionIndex(positionIndex + 1);
         }
-
         //elbows
-        if (((rightElbowAngle <= (curlPoses[positionIndex2][0] + 35) && rightElbowAngle >= (curlPoses[positionIndex2][0] - 35)) ||
-            (leftElbowAngle <= (curlPoses[positionIndex2][1] + 35) && leftElbowAngle >= (curlPoses[positionIndex2][1] - 35)))
+        if (standReps >= 5 && ((rightElbowAngle <= (curlPoses[positionIndex2][0] + 25) && rightElbowAngle >= (curlPoses[positionIndex2][0] - 25)) ||
+            (leftElbowAngle <= (curlPoses[positionIndex2][1] + 25) && leftElbowAngle >= (curlPoses[positionIndex2][1] - 25))
+            && (leftKneeAngle <= (165 + 25) && leftKneeAngle >= (165 - 25)) &&
+            (rightKneeAngle <= (165 + 25) && rightKneeAngle >= (165 - 25)))
         ) {
             setpositionIndex2(positionIndex2 + 1);
         }
-        console.log('pose ', curlPoses[positionIndex2])
-        console.log('index ', positionIndex2)
-        console.log('reps ', curlReps)
-        console.log('-------------')
-
-
 
     }
 
