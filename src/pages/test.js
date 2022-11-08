@@ -84,7 +84,21 @@ function Test() {
     const [standReps, setstandReps] = useState(0);
     const [curlReps, setcurlReps] = useState(0);
 
-    //count 
+    //count time
+    const [startCounter, setstartCounter] = useState(false);
+    const [seconds, setseconds] = useState(0);
+
+    //stop trigger sound
+    const [soundTrigger, setsoundTrigger] = useState(false);
+
+    useEffect(() => {
+        if (startCounter) {
+            const interval = setInterval(() => setseconds(seconds + 1),
+                1000
+            );
+            return () => clearInterval(interval);
+        }
+    }, [startCounter, seconds]);
 
     useEffect(() => {
         const blazeModelConfig = poseDetection.SupportedModels.BlazePose;
@@ -140,13 +154,13 @@ function Test() {
             canvas.current.width = "0px";
             canvas.current.height = "0px";
         }
-        if (results.keypoints3D[26].score < 0.75 && results.keypoints3D[25].score < 0.75) {
+        if (results.keypoints3D[26].score < 0.8 && results.keypoints3D[25].score < 0.8) {
             return;
         }
 
         //poses, left leg, right leg 
-        let standingPoses = [[180, 180], [90, 90], [180, 180]]
-        let curlPoses = [[180, 180], [90, 90], [180, 180]]
+        let standingPoses = [[180, 180], [80, 80], [180, 180]]
+        let curlPoses = [[180, 180], [80, 80], [180, 180]]
 
         let rightKneeAngle;
         rightKneeAngle = getAngle(results.keypoints3D[24], results.keypoints3D[26], results.keypoints3D[28]);
@@ -160,28 +174,49 @@ function Test() {
         let rightElbowAngle;
         rightElbowAngle = getAngle(results.keypoints3D[11], results.keypoints3D[13], results.keypoints3D[15]);
 
-        //stand
+        //stand count reps
         if (positionIndex == 3) {
             setpositionIndex(0);
             setstandReps(standReps + 1);
         }
 
-        //curl
+        //curl count reps
         if (positionIndex2 == 3) {
             setpositionIndex2(0);
             setcurlReps(curlReps + 1);
         }
-        //knees
-        if (standReps < 5 && ((rightKneeAngle <= (standingPoses[positionIndex][0] + 15) && rightKneeAngle >= (standingPoses[positionIndex][0] - 15)) ||
+
+        if (curlReps >= 5) {
+            setstartCounter(false);
+        }
+
+        //if sit, start the test
+        if (startCounter == false && ((rightKneeAngle <= (80 + 15) && rightKneeAngle >= (80 - 15)) ||
+            (leftKneeAngle <= (80 + 15) && leftKneeAngle >= (80 - 15)))
+        ) {
+            setsoundTrigger(true);
+            setTimeout(function startTimerAfteraSecond() {
+                setstartCounter(true);
+                if (soundTrigger == false) {
+                    let sound = new Audio("https://temphal9.s3.us-west-2.amazonaws.com/limber/exercises/137523211.mp3");
+                    sound.volume = 0.7;
+                    sound.play();
+                }
+            }, 1500);
+        }
+
+        //knees sitstand
+        if (startCounter == true && standReps < 5 && ((rightKneeAngle <= (standingPoses[positionIndex][0] + 15) && rightKneeAngle >= (standingPoses[positionIndex][0] - 15)) ||
             (leftKneeAngle <= (standingPoses[positionIndex][1] + 15) && leftKneeAngle >= (standingPoses[positionIndex][1] - 15)))
         ) {
             setpositionIndex(positionIndex + 1);
         }
-        //elbows
-        if (standReps >= 5 && ((rightElbowAngle <= (curlPoses[positionIndex2][0] + 25) && rightElbowAngle >= (curlPoses[positionIndex2][0] - 25)) ||
-            (leftElbowAngle <= (curlPoses[positionIndex2][1] + 25) && leftElbowAngle >= (curlPoses[positionIndex2][1] - 25))
-            && (leftKneeAngle <= (165 + 25) && leftKneeAngle >= (165 - 25)) &&
-            (rightKneeAngle <= (165 + 25) && rightKneeAngle >= (165 - 25)))
+
+        //elbows bicepscurls
+        if (startCounter == true && standReps >= 5 && (((rightElbowAngle <= (curlPoses[positionIndex2][0] + 25) && rightElbowAngle >= (curlPoses[positionIndex2][0] - 25)) ||
+            (leftElbowAngle <= (curlPoses[positionIndex2][1] + 25) && leftElbowAngle >= (curlPoses[positionIndex2][1] - 25)))
+            && (leftKneeAngle <= (165 + 15) && leftKneeAngle >= (165 - 25)) &&
+            (rightKneeAngle <= (165 + 15) && rightKneeAngle >= (165 - 25)))
         ) {
             setpositionIndex2(positionIndex2 + 1);
         }
@@ -216,6 +251,17 @@ function Test() {
         })
     }
 
+    //restart the test 
+    if (document.getElementById("restarter")) {
+        document.getElementById("restarter").addEventListener('click', () => {
+            setstandReps(0);
+            setcurlReps(0);
+            setstartCounter(false);
+            setseconds(0);
+            setsoundTrigger(false);
+        })
+    }
+
     return (
         <div className="App">
             <h1>Movement Test</h1>
@@ -223,6 +269,8 @@ function Test() {
             <input type="checkbox" name="vehicle1" value="Bike" id="skeletonCheckbox" />
             <h2>Standing Reps: {standReps}</h2>
             <h2>Curl Reps: {curlReps}</h2>
+            <h2>Time: {seconds}</h2>
+            <button id="restarter">Restart Test </button>
             <div>
                 {detector && (
                     <AILabWebCam
