@@ -1,0 +1,129 @@
+/* Colors */
+:root{
+    --primario-color: #FF5470;
+    --secundario-color: #00EBC7;
+    --blanco-color: #FFF;
+    --text-color: #8A8A8A;
+    --otro-color: #00214D;
+  }
+  
+  .land{
+    height: 100vh;
+    /* margin: 2rem 0 0 0; */
+    color: var(--text-color);
+    display: flex;
+  }
+  .bienvenidos{
+    font-size: 4.5rem;
+  }
+  .form-control{
+    border: none;
+      padding: 0;
+      font-size: 20px;
+      border-radius: 0; 
+  }
+  .boton{
+    color: var(--otro-color);
+    border: none;
+    width: 100%;
+    padding: 0.5rem 0;
+    margin: 0.5rem 0;
+    border-radius: 15px;
+    background-color: var(--secundario-color);
+    font-weight: 600;
+  }
+  .boton_reg{
+    color: var(--blanco-color);
+    border: none;
+    width: 100%;
+    padding: 0.5rem 0;
+    margin: 0.5rem 0;
+    border-radius: 15px;
+    background-color: var(--primario-color);
+    font-weight: 600;
+  }
+  .centrar{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .img-land{
+    padding-left: 4.5rem;
+  }
+  .form__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 1.3rem;
+    color: var(--otro-color);
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+  }
+  .form__field::placeholder {
+    color: transparent;
+  }
+  .form__field:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
+  
+  .form__label {
+    position: absolute;
+    top: 25%;
+    
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #9b9b9b;
+  }
+  .form_group{
+    position: relative;
+  }
+  
+  .form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #11998e, #38ef7d);
+    border-image-slice: 1;
+  }
+  .form__field:focus ~ .form__label {
+    position: absolute;
+    top: -50%;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #11998e;
+    font-weight: 700;
+  
+  }
+  .activo{
+    position: absolute;
+    top: -30%;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #11998e;
+    font-weight: 700;
+  }
+  
+  
+  
+  /* reset input */
+  .form__field:required, .form__field:invalid {
+    box-shadow: none;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .land{
+      margin: 4.5rem 0;
+    }
+    .espacio{
+      margin: 5.5rem 0;
+    }
+  }

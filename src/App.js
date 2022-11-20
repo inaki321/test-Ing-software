@@ -1,11 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./log_Sign.css";
 //routes imports
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-//pages imports 
-import Test from './pages/test';
-
+//pages imports
+import Test from "./pages/test";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 function App() {
   return (
