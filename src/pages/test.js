@@ -91,6 +91,10 @@ function Test() {
     //stop trigger sound
     const [soundTrigger, setsoundTrigger] = useState(false);
 
+    //set pass variables 
+    const [standPass, setstandPass] = useState(false);
+    const [curlPass, setcurlPass] = useState(false);
+
     useEffect(() => {
         if (startCounter) {
             const interval = setInterval(() => setseconds(seconds + 1),
@@ -120,6 +124,14 @@ function Test() {
         res2 = 1 + res.keypoints3D[5].y;
     }
 
+    //table results / 2, half of time 
+    var user = { name: "Juan", age: 93, sitstandreps: 0, curlreps: 0, sex: "H" }
+    var menResultsTable = [{ age: "60-64", sitstandrange: 7, curlrange: 8 }, { age: "65-69", sitstandrange: 6, curlrange: 8 }, { age: "70-74", sitstandrange: 6, curlrange: 7 }
+        , { age: "75-79", sitstandrange: 6, curlrange: 7 }, { age: "80-84", sitstandrange: 5, curlrange: 7 }, { age: "85-89", sitstandrange: 4, curlrange: 6 },
+    { age: "90-94", sitstandrange: 4, curlrange: 5 }]
+    var womenResultsTable = [{ age: "60-64", sitstandrange: 6, curlrange: 7 }, { age: "65-69", sitstandrange: 5, curlrange: 7 }, { age: "70-74", sitstandrange: 5, curlrange: 6 }
+        , { age: "75-79", sitstandrange: 5, curlrange: 6 }, { age: "80-84", sitstandrange: 4, curlrange: 6 }, { age: "85-89", sitstandrange: 3, curlrange: 5 },
+    { age: "90-94", sitstandrange: 3, curlrange: 4 }]
 
     function drawSkeleton(results) {
         var canvas = canvasRef;
@@ -154,6 +166,39 @@ function Test() {
             canvas.current.width = "0px";
             canvas.current.height = "0px";
         }
+
+
+        //get results
+        if (seconds == 30) {
+            setstartCounter(false);
+            if (user.sex == "M") {
+                for (let i = 0; i < womenResultsTable.length; i++) {
+                    const rangeArray = womenResultsTable[i].age.split("-");
+                    if (user.age >= parseFloat(rangeArray[0]) && user.age <= parseFloat(rangeArray[1])) {
+                        if (womenResultsTable[i].sitstandrange < standReps) {
+                            setstandPass(true);
+                        }
+                        if (womenResultsTable[i].curlrange < curlReps) {
+                            setcurlPass(true);
+                        }
+                    }
+                }
+            }
+            else if (user.sex == "H") {
+                for (let i = 0; i < menResultsTable.length; i++) {
+                    const rangeArray = menResultsTable[i].age.split("-");
+                    if (user.age >= parseFloat(rangeArray[0]) && user.age <= parseFloat(rangeArray[1])) {
+                        if (menResultsTable[i].sitstandrange < standReps) {
+                            setstandPass(true);
+                        }
+                        if (menResultsTable[i].curlrange < curlReps) {
+                            setcurlPass(true);
+                        }
+                    }
+                }
+            }
+        }
+
         if (results.keypoints3D[26].score < 0.8 && results.keypoints3D[25].score < 0.8) {
             return;
         }
@@ -186,10 +231,6 @@ function Test() {
             setcurlReps(curlReps + 1);
         }
 
-        if (curlReps >= 5) {
-            setstartCounter(false);
-        }
-
         //if sit, start the test
         if (startCounter == false && ((rightKneeAngle <= (80 + 15) && rightKneeAngle >= (80 - 15)) ||
             (leftKneeAngle <= (80 + 15) && leftKneeAngle >= (80 - 15)))
@@ -206,15 +247,15 @@ function Test() {
         }
 
         //knees sitstand
-        if (startCounter == true && standReps < 5 && ((rightKneeAngle <= (standingPoses[positionIndex][0] + 15) && rightKneeAngle >= (standingPoses[positionIndex][0] - 15)) ||
+        if (startCounter == true && (seconds >= 0 && seconds <= 15) && ((rightKneeAngle <= (standingPoses[positionIndex][0] + 15) && rightKneeAngle >= (standingPoses[positionIndex][0] - 15)) ||
             (leftKneeAngle <= (standingPoses[positionIndex][1] + 15) && leftKneeAngle >= (standingPoses[positionIndex][1] - 15)))
         ) {
             setpositionIndex(positionIndex + 1);
         }
 
         //elbows bicepscurls
-        if (startCounter == true && standReps >= 5 && (((rightElbowAngle <= (curlPoses[positionIndex2][0] + 25) && rightElbowAngle >= (curlPoses[positionIndex2][0] - 25)) ||
-            (leftElbowAngle <= (curlPoses[positionIndex2][1] + 25) && leftElbowAngle >= (curlPoses[positionIndex2][1] - 25)))
+        if (startCounter == true && (seconds > 15 && seconds <= 30) && (((rightElbowAngle <= (curlPoses[positionIndex2][0] + 30) && rightElbowAngle >= (curlPoses[positionIndex2][0] - 30)) ||
+            (leftElbowAngle <= (curlPoses[positionIndex2][1] + 30) && leftElbowAngle >= (curlPoses[positionIndex2][1] - 30)))
             && (leftKneeAngle <= (165 + 15) && leftKneeAngle >= (165 - 25)) &&
             (rightKneeAngle <= (165 + 15) && rightKneeAngle >= (165 - 25)))
         ) {
@@ -259,6 +300,8 @@ function Test() {
             setstartCounter(false);
             setseconds(0);
             setsoundTrigger(false);
+            setstandPass(false);
+            setcurlPass(false);
         })
     }
 
