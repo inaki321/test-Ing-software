@@ -59,7 +59,6 @@ function Jobs() {
             colz.forEach((ele, ind) => {
               row[ele] = (rowData.c[ind] != null) ? rowData.c[ind].v : '';
             })
-
             check2.push(row);
 
           })
