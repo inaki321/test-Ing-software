@@ -3,6 +3,8 @@ import { AILabWebCam } from "ai-lab";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
 import { Conv2D } from "@tensorflow/tfjs";
+import myUser from "../vars";
+import { Link } from "react-router-dom";
 
 //conected keypoints of the blazepose
 const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS = [
@@ -90,6 +92,8 @@ function Test() {
 
     //stop trigger sound
     const [soundTrigger, setsoundTrigger] = useState(false);
+    const [soundTrigger2, setsoundTrigger2] = useState(false);
+    const [soundTrigger3, setsoundTrigger3] = useState(false);
 
     //set pass variables 
     const [standPass, setstandPass] = useState(false);
@@ -126,6 +130,9 @@ function Test() {
 
     //table results / 2, half of time 
     var user = { name: "Juan", age: 93, sitstandreps: 0, curlreps: 0, sex: "H" }
+    user.name = myUser.name;
+    user.age = myUser.age;
+    user.sex = myUser.sex;
     var menResultsTable = [{ age: "60-64", sitstandrange: 7, curlrange: 8 }, { age: "65-69", sitstandrange: 6, curlrange: 8 }, { age: "70-74", sitstandrange: 6, curlrange: 7 }
         , { age: "75-79", sitstandrange: 6, curlrange: 7 }, { age: "80-84", sitstandrange: 5, curlrange: 7 }, { age: "85-89", sitstandrange: 4, curlrange: 6 },
     { age: "90-94", sitstandrange: 4, curlrange: 5 }]
@@ -168,9 +175,25 @@ function Test() {
         }
 
 
+        if (seconds == 15) {
+            setsoundTrigger3(true);
+            if (soundTrigger3 == false) {
+                let sound = new Audio("https://temphal9.s3.us-west-2.amazonaws.com/limber/exercises/137523211.mp3");
+                sound.volume = 0.7;
+                sound.play();
+            }
+        }
         //get results
         if (seconds == 30) {
             setstartCounter(false);
+
+            setsoundTrigger2(true);
+            if (soundTrigger2 == false) {
+                let sound = new Audio("https://temphal9.s3.us-west-2.amazonaws.com/limber/exercises/137523211.mp3");
+                sound.volume = 0.7;
+                sound.play();
+            }
+
             if (user.sex == "M") {
                 for (let i = 0; i < womenResultsTable.length; i++) {
                     const rangeArray = womenResultsTable[i].age.split("-");
@@ -180,6 +203,9 @@ function Test() {
                         }
                         if (womenResultsTable[i].curlrange < curlReps) {
                             setcurlPass(true);
+                        }
+                        if (curlPass && standPass) {
+                            myUser.able = "Yes";
                         }
                     }
                 }
@@ -194,10 +220,16 @@ function Test() {
                         if (menResultsTable[i].curlrange < curlReps) {
                             setcurlPass(true);
                         }
+                        if (curlPass && standPass) {
+                            myUser.able = "Yes";
+                        }
                     }
                 }
             }
         }
+        console.log(curlPass)
+        console.log(standPass)
+        console.log(myUser)
 
         if (results.keypoints3D[26].score < 0.8 && results.keypoints3D[25].score < 0.8) {
             return;
@@ -262,6 +294,7 @@ function Test() {
             setpositionIndex2(positionIndex2 + 1);
         }
 
+
     }
 
     function getAngle(vector1, vector2, vector3) {
@@ -307,6 +340,7 @@ function Test() {
 
     return (
         <div className="App">
+            <Link to="/jobs">Go to jobs page</Link>
             <h1>Movement Test</h1>
             <h2>Turn on Skeleton</h2>
             <input type="checkbox" name="vehicle1" value="Bike" id="skeletonCheckbox" />

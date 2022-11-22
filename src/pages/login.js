@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import imagen_land from "../img/Active elderly people-bro 1.png";
+import myUser from "../vars";
+
 
 const Login = () => {
   useEffect(() => {
@@ -21,7 +23,9 @@ const Login = () => {
         label_pass.classList.add("activo");
       }
     });
+
   });
+  console.log(myUser);
   return (
     <div className="container fluid land centrar">
       <div className="row">
