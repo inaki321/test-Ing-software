@@ -1,3 +1,11 @@
-//important fields age, sex, able 
-const myUser = { name: "Juan", lastName: "Martinez", age: 92, sex: "M", able: "No", pass: "jijijij" }
+//important fields age, sex, able
+const myUser = {
+  name: "Juan",
+  age: 92,
+  sex: "M",
+  able: "No",
+  pass: "root",
+  user: "juan55",
+  email: "juan@ejemplo.com",
+};
 export default myUser;

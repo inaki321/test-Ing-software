@@ -24,7 +24,19 @@
   color: white;
 }
 
-
+.incorrecto{
+  color: red !important;
+  /* border-bottom: 2px solid red !important */
+}
+video{
+  width: 100%;
+}
+.incorrecto::after{
+  content: '  Incorrecto';
+  z-index: 2;
+  left: -50%;
+  top: -50%;
+}
 
 .App-link {
   color: #61dafb;

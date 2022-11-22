@@ -1,9 +1,29 @@
 import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import imagen_land from "../img/Active elderly people-bro 1.png";
 import myUser from "../vars";
 
-
 const Login = () => {
+  const navigate = useNavigate();
+  const verificarUser = () => {
+    console.log("dentro");
+    const input_usuario = document.querySelector("#username");
+    const label_usuario = document.querySelector("#label_usuario");
+    const input_pass = document.querySelector("#password").value;
+    const label_pass = document.querySelector("#label_pass");
+    if (input_usuario.value != myUser.user || input_pass.value != myUser.pass) {
+      label_usuario.classList.add("incorrecto");
+      label_pass.classList.add("incorrecto");
+    }
+    if (input_usuario.value == myUser.user || input_pass.value == myUser.pass) {
+      label_usuario.classList.remove("incorrecto");
+      label_pass.classList.remove("incorrecto");
+      console.log("Todo bien");
+      setTimeout(() => {
+        navigate("/Jobs");
+      }, 2000);
+    }
+  };
   useEffect(() => {
     const input_usuario = document.querySelector("#username");
     const label_usuario = document.querySelector("#label_usuario");
@@ -23,7 +43,6 @@ const Login = () => {
         label_pass.classList.add("activo");
       }
     });
-
   });
   console.log(myUser);
   return (
@@ -47,6 +66,7 @@ const Login = () => {
                     id="username"
                     aria-label="Usuario"
                     placeholder="Usuario"
+                    required
                   />
                 </div>
                 <div className="form-group last mt-3 mb-4 form_group">
@@ -58,14 +78,19 @@ const Login = () => {
                     className="form__field"
                     id="password"
                     placeholder="Contraseña"
+                    required
                   />
                 </div>
               </form>
             </div>
             <div className="col-12 centrar mt-5">
-              <button className="boton">Ingresar</button>
+              <button className="boton" onClick={verificarUser}>
+                Ingresar
+              </button>
               <h5 style={{ margin: 0 }}>Ó</h5>
-              <button className="boton">Registrarse</button>
+              <Link to="/signup">
+                <button className="boton">Registrarse</button>
+              </Link>
             </div>
           </div>
         </div>

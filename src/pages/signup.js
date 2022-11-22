@@ -1,7 +1,38 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
 import img_signup from "../img/Ride a bicycle-rafiki 1.png";
+import myUser from "../vars";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  function Registrado(e) {
+    e.preventDefault();
+    var input_nombre = document.querySelector("#nombre").value;
+    var input_edad = document.querySelector("#edad").value;
+    var input_usuario = document.querySelector("#usuario").value;
+    var input_email = document.querySelector("#email").value;
+    var input_pass = document.querySelector("#password").value;
+    var input_sex = document.querySelector("#sex").value;
+
+    console.log(
+      input_nombre,
+      input_edad,
+      input_usuario,
+      input_email,
+      input_pass,
+      input_sex
+    );
+    myUser.name = input_nombre;
+    myUser.age = input_edad;
+    myUser.user = input_usuario;
+    myUser.email = input_email;
+    myUser.pass = input_pass;
+    myUser.sex = input_sex;
+    console.log(myUser);
+    setTimeout(() => {
+      navigate("/Jobs");
+    }, 2000);
+  }
   useEffect(() => {
     const input_nombre = document.querySelector("#nombre");
     const label_nombre = document.querySelector("#label_nombre");
@@ -39,6 +70,15 @@ const Signup = () => {
         label_email.classList.add("activo");
       }
     });
+    const input_sex = document.querySelector("#sex");
+    const label_sex = document.querySelector("#label_sex");
+    input_sex.addEventListener("input", () => {
+      if (input_sex.value == null || input_sex.value == "") {
+        label_sex.classList.remove("activo");
+      } else {
+        label_sex.classList.add("activo");
+      }
+    });
     const input_pass = document.querySelector("#password");
     const label_pass = document.querySelector("#label_pass");
     input_pass.addEventListener("input", () => {
@@ -49,6 +89,7 @@ const Signup = () => {
       }
     });
   });
+
   return (
     <div className="container fluid land centrar">
       <div className="row espacio">
@@ -57,7 +98,7 @@ const Signup = () => {
         </div>
         <div className="col-md-5">
           <h1>Ingresa tus datos</h1>
-          <form action="#" method="post">
+          <form onSubmit={Registrado} method="post">
             <div className="form-group first form_group mt-5">
               <label className="form__label" id="label_nombre">
                 Nombre
@@ -80,6 +121,18 @@ const Signup = () => {
                 className="form__field"
                 id="edad"
                 placeholder="Edad"
+                required
+              />
+            </div>
+            <div className="form-group last mt-3 mb-4 form_group">
+              <label className="form__label" id="label_sex">
+                Sexo
+              </label>
+              <input
+                type="text"
+                className="form__field"
+                id="sex"
+                placeholder="Sexo"
                 required
               />
             </div>
