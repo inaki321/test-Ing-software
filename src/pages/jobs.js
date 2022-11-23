@@ -79,7 +79,7 @@ function Jobs() {
   return (
     <div className="App">
       <Link to="/test">Go to the test</Link>
-      <h1>Trabajos</h1>
+      {myUser.able == "No" ? <h1>Trabajos sin movilidad</h1> : <h1>Trabajos con movilidad</h1>}
       {cardData(data)}
     </div>
   );

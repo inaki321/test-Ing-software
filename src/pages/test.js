@@ -127,10 +127,13 @@ function Test() {
   }
 
   //table results / 2, half of time
+  const [showStanding, setshowStanding] = useState(0);
+  const [showCurls, setshowCurls] = useState(0);
   var user = { name: "Juan", age: 93, sitstandreps: 0, curlreps: 0, sex: "H" };
   user.name = myUser.name;
   user.age = myUser.age;
   user.sex = myUser.sex;
+
   var menResultsTable = [
     { age: "60-64", sitstandrange: 7, curlrange: 8 },
     { age: "65-69", sitstandrange: 6, curlrange: 8 },
@@ -150,45 +153,38 @@ function Test() {
     { age: "90-94", sitstandrange: 3, curlrange: 4 },
   ];
 
+  useEffect(() => {
+    if (user.sex == "M") {
+      for (let i = 0; i < womenResultsTable.length; i++) {
+        const rangeArray = womenResultsTable[i].age.split("-");
+        if (
+          user.age >= parseFloat(rangeArray[0]) &&
+          user.age <= parseFloat(rangeArray[1])
+        ) {
+          document.getElementById("requireStand").innerText = "sitstand necesarios " + womenResultsTable[i].sitstandrange;
+          document.getElementById("requireCurl").innerText = "curls necesarios " + womenResultsTable[i].curlrange;
+        }
+
+      }
+    }
+    else {
+      for (let i = 0; i < menResultsTable.length; i++) {
+        const rangeArray = menResultsTable[i].age.split("-");
+        if (
+          user.age >= parseFloat(rangeArray[0]) &&
+          user.age <= parseFloat(rangeArray[1])
+        ) {
+          document.getElementById("requireStand").innerText = "sitstand necesarios " + menResultsTable[i].sitstandrange;
+          document.getElementById("requireCurl").innerText = "curls necesarios " + menResultsTable[i].curlrange;
+        }
+
+      }
+
+    }
+  }, []);
+
   function drawSkeleton(results) {
     var canvas = canvasRef;
-    const ctx = canvas.current.getContext("2d");
-    if (skeleton) {
-      canvas.current.width = vid.width;
-      canvas.current.height = vid.height;
-      for (var j of results.keypoints) {
-        const keypoint = j;
-        const x = keypoint.x;
-        const y = keypoint.y;
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, 2 * Math.PI);
-        ctx.fillStyle = "green";
-        ctx.fill();
-      }
-      //Draw Esqueleton
-      let poseEsqueleto = results.keypoints.map((pose) => {
-        return { x: pose.x, y: pose.y, z: pose.z, visibility: pose.score };
-      });
-
-      BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS.forEach((keypoints) => {
-        //draw segment
-        ctx.beginPath();
-        ctx.moveTo(
-          poseEsqueleto[keypoints[0]].x * 1,
-          poseEsqueleto[keypoints[0]].y * 1
-        );
-        ctx.lineTo(
-          poseEsqueleto[keypoints[1]].x * 1,
-          poseEsqueleto[keypoints[1]].y * 1
-        );
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "green";
-        ctx.stroke();
-      });
-    } else {
-      canvas.current.width = "0px";
-      canvas.current.height = "0px";
-    }
 
     if (seconds == 15) {
       setsoundTrigger3(true);
@@ -220,10 +216,10 @@ function Test() {
             user.age >= parseFloat(rangeArray[0]) &&
             user.age <= parseFloat(rangeArray[1])
           ) {
-            if (womenResultsTable[i].sitstandrange < standReps) {
+            if (womenResultsTable[i].sitstandrange <= standReps) {
               setstandPass(true);
             }
-            if (womenResultsTable[i].curlrange < curlReps) {
+            if (womenResultsTable[i].curlrange <= curlReps) {
               setcurlPass(true);
             }
             if (curlPass && standPass) {
@@ -238,10 +234,10 @@ function Test() {
             user.age >= parseFloat(rangeArray[0]) &&
             user.age <= parseFloat(rangeArray[1])
           ) {
-            if (menResultsTable[i].sitstandrange < standReps) {
+            if (menResultsTable[i].sitstandrange <= standReps) {
               setstandPass(true);
             }
-            if (menResultsTable[i].curlrange < curlReps) {
+            if (menResultsTable[i].curlrange <= curlReps) {
               setcurlPass(true);
             }
             if (curlPass && standPass) {
@@ -251,8 +247,8 @@ function Test() {
         }
       }
     }
-    console.log(curlPass);
-    console.log(standPass);
+    console.log(showCurls)
+    console.log(standPass, ' ', curlPass);
     console.log(myUser);
 
     if (
@@ -388,8 +384,8 @@ function Test() {
 
     angle = Math.acos(
       (x1 * x3 + y1 * y3 + z1 * z3) /
-        (Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2) + Math.pow(z1, 2)) *
-          Math.sqrt(Math.pow(x3, 2) + Math.pow(y3, 2) + Math.pow(z3, 2)))
+      (Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2) + Math.pow(z1, 2)) *
+        Math.sqrt(Math.pow(x3, 2) + Math.pow(y3, 2) + Math.pow(z3, 2)))
     );
     angle = angle * (180 / Math.PI);
     return angle;
@@ -419,9 +415,9 @@ function Test() {
 
   return (
     <div className="App">
+
       <div className="container fluid land centrar">
         <div className="row">
-          <Link to="/jobs">Go to jobs page</Link>
           <div className="col-md-8 centrar">
             {detector && (
               <AILabWebCam
@@ -437,36 +433,20 @@ function Test() {
 
                   textAlign: "center",
                   zindex: 9,
+
                 }}
               />
             )}
-            <canvas
-              ref={canvasRef}
-              style={{
-                position: "absolute",
-                marginLeft: "auto",
-                marginRight: "auto",
-                left: 0,
-                right: 0,
-                textAlign: "center",
-                zindex: 9,
-                pointerEvents: "none",
-              }}
-            />
           </div>
           <div className="col-md-4 centrar d-flex flex-column ">
-            <h1>Movement Test</h1>
-            <h2>Turn on Skeleton</h2>
-            <input
-              type="checkbox"
-              name="vehicle1"
-              value="Bike"
-              id="skeletonCheckbox"
-            />
-            <h2>Standing Reps: {standReps}</h2>
-            <h2>Curl Reps: {curlReps}</h2>
+            <h1>Bienvenido al test  {myUser.name}</h1>
+            <h3 id="requireStand">H</h3>
+            <h3 id="requireCurl">H</h3>
+            <h3>Standing Reps: {standReps}</h3>
+            <h3>Curl Reps: {curlReps}</h3>
             <h2>Time: {seconds}</h2>
             <button id="restarter">Restart Test </button>
+            <Link to="/jobs">Go to jobs page</Link>
           </div>
         </div>
       </div>
