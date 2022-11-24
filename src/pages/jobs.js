@@ -15,7 +15,7 @@ const Card = (props) => {
       <div className="card-body">
         <div><b>Nombre del trabajo: </b> {props.data.nombre}</div>
         <div><b>Descripcion:</b> {props.data.descripcion}</div>
-        <div><b>Movilidad: </b> {props.data.mas}</div>
+        <div><b>Movilidad: </b> {props.data.movilidad}</div>
       </div>
     </div>
   )
@@ -59,7 +59,14 @@ function Jobs() {
             colz.forEach((ele, ind) => {
               row[ele] = (rowData.c[ind] != null) ? rowData.c[ind].v : '';
             })
-            check2.push(row);
+
+            if (row.movilidad == 'No'){
+              check2.push(row);
+            } else if (row.movilidad == 'Yes' && myUser.able == 'Yes'){
+              check2.push(row);
+            } else{
+              return;
+            }
 
           })
           console.log(check2);
