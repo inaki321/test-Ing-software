@@ -161,25 +161,25 @@ function Test() {
           user.age >= parseFloat(rangeArray[0]) &&
           user.age <= parseFloat(rangeArray[1])
         ) {
-          document.getElementById("requireStand").innerText = "sitstand necesarios " + womenResultsTable[i].sitstandrange;
-          document.getElementById("requireCurl").innerText = "curls necesarios " + womenResultsTable[i].curlrange;
+          document.getElementById("requireStand").innerText =
+            "sitstand necesarios " + womenResultsTable[i].sitstandrange;
+          document.getElementById("requireCurl").innerText =
+            "curls necesarios " + womenResultsTable[i].curlrange;
         }
-
       }
-    }
-    else {
+    } else {
       for (let i = 0; i < menResultsTable.length; i++) {
         const rangeArray = menResultsTable[i].age.split("-");
         if (
           user.age >= parseFloat(rangeArray[0]) &&
           user.age <= parseFloat(rangeArray[1])
         ) {
-          document.getElementById("requireStand").innerText = "sitstand necesarios " + menResultsTable[i].sitstandrange;
-          document.getElementById("requireCurl").innerText = "curls necesarios " + menResultsTable[i].curlrange;
+          document.getElementById("requireStand").innerText =
+            "sitstand necesarios " + menResultsTable[i].sitstandrange;
+          document.getElementById("requireCurl").innerText =
+            "curls necesarios " + menResultsTable[i].curlrange;
         }
-
       }
-
     }
   }, []);
 
@@ -247,8 +247,8 @@ function Test() {
         }
       }
     }
-    console.log(showCurls)
-    console.log(standPass, ' ', curlPass);
+    console.log(showCurls);
+    console.log(standPass, " ", curlPass);
     console.log(myUser);
 
     if (
@@ -384,8 +384,8 @@ function Test() {
 
     angle = Math.acos(
       (x1 * x3 + y1 * y3 + z1 * z3) /
-      (Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2) + Math.pow(z1, 2)) *
-        Math.sqrt(Math.pow(x3, 2) + Math.pow(y3, 2) + Math.pow(z3, 2)))
+        (Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2) + Math.pow(z1, 2)) *
+          Math.sqrt(Math.pow(x3, 2) + Math.pow(y3, 2) + Math.pow(z3, 2)))
     );
     angle = angle * (180 / Math.PI);
     return angle;
@@ -415,9 +415,9 @@ function Test() {
 
   return (
     <div className="App">
-
       <div className="container fluid land centrar">
         <div className="row">
+          <h1 className="resto text-start">Prueba tus habilidades</h1>
           <div className="col-md-8 centrar">
             {detector && (
               <AILabWebCam
@@ -433,20 +433,25 @@ function Test() {
 
                   textAlign: "center",
                   zindex: 9,
-
                 }}
               />
             )}
           </div>
           <div className="col-md-4 centrar d-flex flex-column ">
-            <h1 className="hero_title1">Bienvenido al test  {myUser.name}</h1>
+            <h1 className="hero_title1">Bienvenido al test {myUser.name}</h1>
             <h3 id="requireStand">H</h3>
             <h3 id="requireCurl">H</h3>
             <h3 className="hero_title11">Standing Reps: {standReps}</h3>
             <h3 className="hero_title11">Curl Reps: {curlReps}</h3>
             <h2 className="hero_title12">Time: {seconds}</h2>
-            <button className="v1_274" id="restarter">Restart Test </button>
-            <Link to="/jobs">Go to jobs page</Link>
+            <button className="boton" id="restarter">
+              Restart Test{" "}
+            </button>
+            <Link to="/jobs">
+              <button className="boton_a_mov" id="restarter">
+                Regresar
+              </button>
+            </Link>
           </div>
         </div>
       </div>

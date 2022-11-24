@@ -22,19 +22,6 @@ const Card = (props) => {
         </a>
       </div>
     </div>
-    // <div className="content_box">
-    //   <div className="col3">
-    //     <div className="hero_title2">
-    //       <b>Nombre del trabajo: </b> {props.data.nombre}
-    //     </div>
-    //     <div className="highlights">
-    //       <b>Descripcion:</b> {props.data.descripcion}
-    //     </div>
-    //     <div className="highlights">
-    //       <b>Movilidad: </b> {props.data.mas}
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 function cardData(jobs) {
@@ -106,7 +93,9 @@ function Jobs() {
                   {myUser.able == "No" ? (
                     <h1>Trabajos sin movilidad</h1>
                   ) : (
-                    <h1>Trabajos con movilidad</h1>
+                    <div className="bg-primary rounded-pill">
+                      <h1>Trabajos con movilidad</h1>
+                    </div>
                   )}
                 </div>
                 <div className="col-md-4">
