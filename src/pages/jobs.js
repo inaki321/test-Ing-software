@@ -61,8 +61,17 @@ function Jobs() {
             colz.forEach((ele, ind) => {
               row[ele] = rowData.c[ind] != null ? rowData.c[ind].v : "";
             });
+            //validation
+            if (row.movilidad == 'No') {
+              check2.push(row);
+            } else if (row.movilidad == 'Yes' && myUser.able == 'Yes') {
+              check2.push(row);
+            } else {
+              return;
+            }
             check2.push(row);
           });
+
           console.log(check2);
           setData(check2);
         });
