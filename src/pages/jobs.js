@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import myUser from "../vars";
 import { Link } from "react-router-dom";
+import usua from "../img/usuario.png";
 
 const sheetId = '1E331LxZZL6DuUk7RcQIWZ92mhAkMOA_n5h2DM70mhMo';
 const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?`;
@@ -10,12 +11,12 @@ const url = `${base}&sheet=${sheetName}&tq=${query}`
 
 const Card = (props) => {
   return (
-    <div className="card">
-      <h2 className="card-header">{props.data.num}</h2>
-      <div className="card-body">
-        <div><b>Nombre del trabajo: </b> {props.data.nombre}</div>
-        <div><b>Descripcion:</b> {props.data.descripcion}</div>
-        <div><b>Movilidad: </b> {props.data.mas}</div>
+    <div className="content_box">
+
+      <div className="col3">
+        <div className="hero_title2"><b>Nombre del trabajo: </b> {props.data.nombre}</div>
+        <div className="highlights"><b>Descripcion:</b> {props.data.descripcion}</div>
+        <div className="highlights"><b>Movilidad: </b> {props.data.mas}</div>
       </div>
     </div>
   )
@@ -78,9 +79,36 @@ function Jobs() {
 
   return (
     <div className="App">
-      <Link to="/test">Go to the test</Link>
-      {myUser.able == "No" ? <h1>Trabajos sin movilidad</h1> : <h1>Trabajos con movilidad</h1>}
-      {cardData(data)}
+      <div class="lan root">
+        <div class="col">
+          <div class="row">
+            <div class="item">
+              <h1 class="hero_title1">Bienvenido</h1>
+            </div>
+            <div class="spacer"></div>
+            <div class="item1">
+              <img class="image" src={usua} alt="alt text" />
+            </div>
+          </div>
+          <div class="col1">
+            <div class="rect"></div>
+            <div class="col2">
+              <div class="row1">
+                <div class="item">
+                  {myUser.able == "No" ? <h1>Trabajos sin movilidad</h1> : <h1>Trabajos con movilidad</h1>}
+                </div>
+                <div class="spacer"></div>
+                <div class="item1">
+                  <button className="v1_274"><Link to="/test">Go to the test</Link></button>
+                </div>
+              </div>
+              <div class="col3">
+                {cardData(data)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 
