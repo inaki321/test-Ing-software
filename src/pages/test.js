@@ -439,13 +439,13 @@ function Test() {
             )}
           </div>
           <div className="col-md-4 centrar d-flex flex-column ">
-            <h1>Bienvenido al test  {myUser.name}</h1>
+            <h1 className="hero_title1">Bienvenido al test  {myUser.name}</h1>
             <h3 id="requireStand">H</h3>
             <h3 id="requireCurl">H</h3>
-            <h3>Standing Reps: {standReps}</h3>
-            <h3>Curl Reps: {curlReps}</h3>
-            <h2>Time: {seconds}</h2>
-            <button id="restarter">Restart Test </button>
+            <h3 className="hero_title11">Standing Reps: {standReps}</h3>
+            <h3 className="hero_title11">Curl Reps: {curlReps}</h3>
+            <h2 className="hero_title12">Time: {seconds}</h2>
+            <button className="v1_274" id="restarter">Restart Test </button>
             <Link to="/jobs">Go to jobs page</Link>
           </div>
         </div>
