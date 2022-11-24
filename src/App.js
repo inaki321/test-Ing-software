@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import "./App.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./log_Sign.css";
 //routes imports
@@ -9,7 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Test from "./pages/test";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
-import Jobs from "./pages/jobs"
+import Jobs from "./pages/jobs";
 
 function App() {
   return (
