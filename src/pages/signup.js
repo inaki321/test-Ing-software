@@ -12,7 +12,15 @@ const Signup = () => {
     var input_usuario = document.querySelector("#usuario").value;
     var input_email = document.querySelector("#email").value;
     var input_pass = document.querySelector("#password").value;
-    var input_sex = document.querySelector("#sex").value;
+    var input_sex_m = document.querySelector("#sex").value;
+    var input_sex_h = document.querySelector("#sex2").value;
+    var input_sex = "";
+    if (input_sex_m == "on") {
+      input_sex = "M";
+    }
+    if (input_sex_h == "on") {
+      input_sex = "H";
+    }
 
     console.log(
       input_nombre,
@@ -71,14 +79,16 @@ const Signup = () => {
       }
     });
     const input_sex = document.querySelector("#sex");
-    const label_sex = document.querySelector("#label_sex");
-    input_sex.addEventListener("input", () => {
-      if (input_sex.value == null || input_sex.value == "") {
-        label_sex.classList.remove("activo");
-      } else {
-        label_sex.classList.add("activo");
-      }
-    });
+
+    // const input_sex = document.querySelector("#sex");
+    // const label_sex = document.querySelector("#label_sex");
+    // input_sex.addEventListener("input", () => {
+    //   if (input_sex.value == null || input_sex.value == "") {
+    //     label_sex.classList.remove("activo");
+    //   } else {
+    //     label_sex.classList.add("activo");
+    //   }
+    // });
     const input_pass = document.querySelector("#password");
     const label_pass = document.querySelector("#label_pass");
     input_pass.addEventListener("input", () => {
@@ -124,7 +134,7 @@ const Signup = () => {
                 required
               />
             </div>
-            <div className="form-group last mt-3 mb-4 form_group">
+            {/* <div className="form-group last mt-3 mb-4 form_group">
               <label className="form__label" id="label_sex">
                 Sexo
               </label>
@@ -135,6 +145,30 @@ const Signup = () => {
                 placeholder="Sexo"
                 required
               />
+            </div>
+             */}
+            <div className="form-check last mt-3 mb-4 form_group">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="sex"
+              />
+              <label className="form-check-label" htmlFor="flexRadioDefault1">
+                Mujer
+              </label>
+            </div>
+            <div className="form-check last mt-3 mb-4 form_group">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="sex2"
+                defaultChecked
+              />
+              <label className="form-check-label" htmlFor="flexRadioDefault2">
+                Hombre
+              </label>
             </div>
             <div className="form-group last mt-3 mb-4 form_group">
               <label className="form__label" id="label_usuario">
