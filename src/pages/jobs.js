@@ -16,7 +16,7 @@ const Card = (props) => {
       <div className="col3">
         <div className="hero_title2"><b>Nombre del trabajo: </b> {props.data.nombre}</div>
         <div className="highlights"><b>Descripcion:</b> {props.data.descripcion}</div>
-        <div className="highlights"><b>Movilidad: </b> {props.data.mas}</div>
+        <div className="highlights"><b>Movilidad: </b> {props.data.movilidad}</div>
       </div>
     </div>
   )
