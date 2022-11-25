@@ -69,7 +69,7 @@ function Jobs() {
             } else {
               return;
             }
-            check2.push(row);
+            
           });
 
           console.log(check2);
