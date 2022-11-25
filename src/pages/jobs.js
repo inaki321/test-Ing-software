@@ -13,7 +13,7 @@ const url = `${base}&sheet=${sheetName}&tq=${query}`;
 const Card = (props) => {
   return (
     <div className="card col-md-5 card-per">
-      <img className="card-img-top" src="..." alt="algo" />
+      <img className="card-img-top" src={props.data.foto} alt="algo" />
       <div className="card-body">
         <h5 className="card-title">{props.data.nombre}</h5>
         <p className="card-text">{props.data.descripcion}</p>
@@ -71,6 +71,16 @@ function Jobs() {
             }
             
           });
+          
+          for (let i = 0; i < check2.length; i++) {
+            if (check2[i].foto != null) {
+              let aux;
+              aux = check2[i].foto.replace("https://drive.google.com/file/d/", "");
+              aux = aux.replace("/view", "");
+              check2[i].foto = "https://drive.google.com/uc?export=view&id=" + aux;
+              console.log('esto mando ', check2[i].foto)
+            }
+          }
 
           console.log(check2);
           setData(check2);
