@@ -17,9 +17,7 @@ const Card = (props) => {
       <div className="card-body">
         <h5 className="card-title">{props.data.nombre}</h5>
         <p className="card-text">{props.data.descripcion}</p>
-        <a href="#" className="btn btn-primary">
-          Ver mas
-        </a>
+        <button className="boton vermas">Ver mas</button>
       </div>
     </div>
   );
@@ -62,14 +60,13 @@ function Jobs() {
               row[ele] = rowData.c[ind] != null ? rowData.c[ind].v : "";
             });
             //validation
-            if (row.movilidad == 'No') {
+            if (row.movilidad == "No") {
               check2.push(row);
-            } else if (row.movilidad == 'Yes' && myUser.able == 'Yes') {
+            } else if (row.movilidad == "Yes" && myUser.able == "Yes") {
               check2.push(row);
             } else {
               return;
             }
-            
           });
           
           for (let i = 0; i < check2.length; i++) {
@@ -103,12 +100,12 @@ function Jobs() {
           <img className="img-fluid" width="38" src={usua} alt="alt text" />
         </form>
       </nav>
-      <div className="container fluid land">
+      <div className="container fluid land" id="resize">
         <div className="container">
           <div className="row ">
             <div className="col-md-12">
               <div className="row centrar mt-5">
-                <div className="col-md-8 text-start">
+                <div className="col-md-8 text-md-start text-sm-center mb-sm-4 mb-md-0">
                   {myUser.able == "No" ? (
                     <h1>Trabajos sin movilidad</h1>
                   ) : (

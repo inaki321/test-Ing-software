@@ -19,7 +19,7 @@
     padding: 0.3rem 5rem;
   }
   .resto{
-    margin-top: 5rem;
+    margin-top: 3rem;
   }
   .card-per{
     border: none;
@@ -68,6 +68,7 @@
     background-color: var(--secundario-color);
     font-weight: 600;
   }
+  
   .boton_reg{
     color: var(--blanco-color);
     border: none;
@@ -77,6 +78,9 @@
     border-radius: 15px;
     background-color: var(--primario-color);
     font-weight: 600;
+  }
+  .card-body .vermas{
+    width: 6rem;
   }
   .centrar{
     text-align: center;
@@ -165,6 +169,14 @@
     .img-land{
       padding: 0;
     }
-    
+    .card-per{
+      margin: 2rem 0;
+    }
+    #resize{
+      margin-top: 1rem;
+    }
+    .navbar{
+      padding: 0.3rem 2rem;
+    }
 
   }
