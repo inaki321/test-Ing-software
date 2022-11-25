@@ -6,7 +6,6 @@ import img_signup from "../img/Ride a bicycle-rafiki 1.png";
 import myUser from "../vars";
 
 const Signup = () => {
-
   const navigate = useNavigate();
   function Registrado(e) {
     e.preventDefault();
@@ -46,9 +45,8 @@ const Signup = () => {
         email: myUser.email,
         pass: myUser.pass,
         sex: myUser.sex,
-        able: myUser.able
-
-      })
+        able: myUser.able,
+      });
       navigate("/Jobs");
     }, 1500);
   }
@@ -131,6 +129,8 @@ const Signup = () => {
                 className="form__field"
                 id="edad"
                 placeholder="Edad"
+                min="18"
+                max="100"
                 required
               />
             </div>

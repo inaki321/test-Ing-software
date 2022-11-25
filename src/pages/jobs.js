@@ -13,7 +13,7 @@ const url = `${base}&sheet=${sheetName}&tq=${query}`;
 const Card = (props) => {
   return (
     <div className="card col-md-5 card-per">
-      <img className="card-img-top" src={props.data.foto} alt="algo" />
+      <img className="card-img-top" src={props.data.foto} alt="algo" />
       <div className="card-body">
         <h5 className="card-title">{props.data.nombre}</h5>
         <p className="card-text">{props.data.descripcion}</p>
@@ -28,7 +28,10 @@ function cardData(jobs) {
     return <Card data={info} key={idx} />;
   });
 }
-
+const dropdown = () => {
+  const menu = document.querySelector(".dropdown-menu");
+  menu.classList.toggle("abierto");
+};
 function Jobs() {
   console.log("usuario ", myUser);
   const [data, setData] = useState([]);
@@ -68,16 +71,20 @@ function Jobs() {
               return;
             }
           });
-          
+
           for (let i = 0; i < check2.length; i++) {
             if (check2[i].foto != null) {
               let aux;
-              aux = check2[i].foto.replace("https://drive.google.com/file/d/", "");
+              aux = check2[i].foto.replace(
+                "https://drive.google.com/file/d/",
+                ""
+              );
               aux = aux.replace("/view", "");
-              check2[i].foto = "https://drive.google.com/uc?export=view&id=" + aux;
-              console.log('esto mando ', check2[i].foto)
-            }
-          }
+              check2[i].foto =
+                "https://drive.google.com/uc?export=view&id=" + aux;
+              console.log("esto mando ", check2[i].foto);
+            }
+          }
 
           console.log(check2);
           setData(check2);
@@ -97,7 +104,30 @@ function Jobs() {
         <h1 className="hero_title1">Bienvenido</h1>
 
         <form className="form-inline">
-          <img className="img-fluid" width="38" src={usua} alt="alt text" />
+          {/* <img className="img-fluid" width="38" src={usua} alt="alt text" /> */}
+          <div className="dropdown">
+            <button
+              className="btn btn-primary btn-floating dropdown-toggle hidden-arrow bg-dark"
+              type="button"
+              id="dropdownMenuButton2"
+              data-mdb-toggle="dropdown"
+              aria-expanded="false"
+              onClick={dropdown}
+            >
+              <i className="fas fa-ellipsis-v fa-lg"></i>
+            </button>
+            <ul
+              className="dropdown-menu dropdown-menu-right"
+              aria-labelledby="dropdownMenuButton2"
+            >
+              <li>
+                <Link to="/" className="cerrar">
+                  <i className="fas fa-door-open pe-2"></i>
+                  Cerrar sesión
+                </Link>
+              </li>
+            </ul>
+          </div>
         </form>
       </nav>
       <div className="container fluid land" id="resize">
@@ -109,16 +139,16 @@ function Jobs() {
                   {myUser.able == "No" ? (
                     <h1>Trabajos sin movilidad</h1>
                   ) : (
-                    <div className="bg-primary rounded-pill">
-                      <h1>Trabajos con movilidad</h1>
-                    </div>
+                    <h1 className="text-center">Trabajos con movilidad</h1>
                   )}
                 </div>
-                <div className="col-md-4">
-                  <Link to="/test">
-                    <button className="boton_a_mov">Test de movilidad</button>
-                  </Link>
-                </div>
+                {myUser.able == "No" ? (
+                  <div className="col-md-4">
+                    <Link to="/test">
+                      <button className="boton_a_mov">Test de movilidad</button>
+                    </Link>
+                  </div>
+                ) : null}
               </div>
               <div className="row resto">{cardData(data)}</div>
             </div>

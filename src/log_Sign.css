@@ -68,7 +68,17 @@
     background-color: var(--secundario-color);
     font-weight: 600;
   }
-  
+  .cerrar{
+    text-decoration: none;
+    border: none;
+    outline: none;
+    text-underline-offset: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transform: translateX(-5%);
+  }
   .boton_reg{
     color: var(--blanco-color);
     border: none;
@@ -78,6 +88,12 @@
     border-radius: 15px;
     background-color: var(--primario-color);
     font-weight: 600;
+  }
+  .dropdown-menu-right{
+    transform: translateX(-75%);
+  }
+  .abierto{
+    display: block;
   }
   .card-body .vermas{
     width: 6rem;
