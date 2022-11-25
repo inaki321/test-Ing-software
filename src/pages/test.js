@@ -88,8 +88,6 @@ function Test() {
       setUserData(books);
       setids(idss);
     })
-    console.log(ids)
-    console.log(userData)
 
   }, []);
 
@@ -97,11 +95,14 @@ function Test() {
   useEffect(() => {
     if (userData) {
       for (let i = 0; i < userData.length; i++) {
-        if (myUser.user == userData[i].user || myUser.pass == userData[i].pass) {
-          console.log(userData[i])
-          console.log(i)
+        console.log(userData[i])
+        console.log(myUser)
+        if (myUser.user == userData[i].user && myUser.pass == userData[i].pass) {
+          console.log('usuario got ', userData[i])
+          console.log('con posicion ', i)
           setpositions(i);
         }
+        console.log('------')
       }
     }
   })
@@ -288,12 +289,6 @@ function Test() {
         }
       }
     }
-
-    //console.log(showCurls);
-    //console.log(standPass, " ", curlPass);
-    //console.log(myUser);
-
-    //console.log(colRef)
 
 
     if (
