@@ -1,28 +1,54 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useFetcher, useNavigate } from "react-router-dom";
 import imagen_land from "../img/Active elderly people-bro 1.png";
 import myUser from "../vars";
+import colRef from "../credentials";
+import { getDocs } from "firebase/firestore";
 
 const Login = () => {
+  const [userData, setUserData] = useState({})
+  useEffect(() => {
+    getDocs(colRef).then((snapshot) => {
+      let books = [];
+      snapshot.docs.forEach((doc) => {
+        books.push({ ...doc.data(), id: doc.id })
+      })
+      setUserData(books);
+    })
+
+  }, []);
+
   const navigate = useNavigate();
   const verificarUser = () => {
-    console.log("dentro");
     const input_usuario = document.querySelector("#username");
     const label_usuario = document.querySelector("#label_usuario");
     const input_pass = document.querySelector("#password").value;
     const label_pass = document.querySelector("#label_pass");
-    if (input_usuario.value != myUser.user || input_pass.value != myUser.pass) {
-      label_usuario.classList.add("incorrecto");
-      label_pass.classList.add("incorrecto");
+
+
+    for (let i = 0; i < userData.length; i++) {
+      if (input_usuario.value != userData[i].user || input_pass.value != userData[i].pass) {
+        label_usuario.classList.add("incorrecto");
+        label_pass.classList.add("incorrecto");
+      }
+      if (input_usuario.value == userData[i].user || input_pass.value == userData[i].pass) {
+        label_usuario.classList.remove("incorrecto");
+        label_pass.classList.remove("incorrecto");
+        console.log("Todo bien");
+
+        setTimeout(() => {
+          myUser.user = userData[i].user;
+          myUser.age = userData[i].age;
+          myUser.name = userData[i].name;
+          myUser.able = userData[i].able;
+          myUser.pass = userData[i].pass;
+          myUser.email = userData[i].email;
+          navigate("/Jobs");
+        }, 2000);
+        return;
+      }
     }
-    if (input_usuario.value == myUser.user || input_pass.value == myUser.pass) {
-      label_usuario.classList.remove("incorrecto");
-      label_pass.classList.remove("incorrecto");
-      console.log("Todo bien");
-      setTimeout(() => {
-        navigate("/Jobs");
-      }, 2000);
-    }
+
   };
   useEffect(() => {
     const input_usuario = document.querySelector("#username");
@@ -44,7 +70,8 @@ const Login = () => {
       }
     });
   });
-  console.log(myUser);
+
+
   return (
     <div className="container fluid land centrar">
       <div className="row">

@@ -1,9 +1,12 @@
+import { addDoc } from "firebase/firestore";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
+import colRef from "../credentials";
 import img_signup from "../img/Ride a bicycle-rafiki 1.png";
 import myUser from "../vars";
 
 const Signup = () => {
+
   const navigate = useNavigate();
   function Registrado(e) {
     e.preventDefault();
@@ -34,8 +37,18 @@ const Signup = () => {
     myUser.email = input_email;
     myUser.pass = input_pass;
     myUser.sex = input_sex;
-    console.log(myUser);
+
     setTimeout(() => {
+      addDoc(colRef, {
+        name: myUser.name,
+        age: myUser.age,
+        user: myUser.user,
+        email: myUser.email,
+        pass: myUser.pass,
+        sex: myUser.sex,
+        able: myUser.able
+
+      })
       navigate("/Jobs");
     }, 1500);
   }

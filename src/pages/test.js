@@ -4,7 +4,10 @@ import * as poseDetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
 import { Conv2D } from "@tensorflow/tfjs";
 import myUser from "../vars";
-import { Link } from "react-router-dom";
+import { Link, useFetcher } from "react-router-dom";
+import { getDocs, updateDoc } from "firebase/firestore";
+import colRef from "../credentials";
+import { getFirestore, doc } from "firebase/firestore";
 
 //conected keypoints of the blazepose
 const BLAZEPOSE_CONNECTED_KEYPOINTS_PAIRS = [
@@ -69,6 +72,40 @@ const config = {
 };
 
 function Test() {
+
+  //get id
+  const [userData, setUserData] = useState({})
+  const [ids, setids] = useState({})
+  useEffect(() => {
+
+    let arr = []
+    getDocs(colRef).then((snapshot) => {
+      let books = [], idss = [];
+      snapshot.docs.forEach((doc) => {
+        idss.push(doc._document.key.path.segments[6])
+        books.push({ ...doc.data(), id: doc.id })
+      })
+      setUserData(books);
+      setids(idss);
+    })
+    console.log(ids)
+    console.log(userData)
+
+  }, []);
+
+  const [positions, setpositions] = useState(0);
+  useEffect(() => {
+    if (userData) {
+      for (let i = 0; i < userData.length; i++) {
+        if (myUser.user == userData[i].user || myUser.pass == userData[i].pass) {
+          console.log(userData[i])
+          console.log(i)
+          setpositions(i);
+        }
+      }
+    }
+  })
+
   //model detector
   const [detector, setDetector] = useState();
   //canvas ref to draw the skeleton
@@ -224,6 +261,8 @@ function Test() {
             }
             if (curlPass && standPass) {
               myUser.able = "Yes";
+              const docRef = doc(getFirestore(), 'temporal', ids[positions]);
+              updateDoc(docRef, { able: "Yes" });
             }
           }
         }
@@ -242,14 +281,20 @@ function Test() {
             }
             if (curlPass && standPass) {
               myUser.able = "Yes";
+              const docRef = doc(getFirestore(), 'temporal', ids[positions]);
+              updateDoc(docRef, { able: "Yes" });
             }
           }
         }
       }
     }
-    console.log(showCurls);
-    console.log(standPass, " ", curlPass);
-    console.log(myUser);
+
+    //console.log(showCurls);
+    //console.log(standPass, " ", curlPass);
+    //console.log(myUser);
+
+    //console.log(colRef)
+
 
     if (
       results.keypoints3D[26].score < 0.8 &&
@@ -384,8 +429,8 @@ function Test() {
 
     angle = Math.acos(
       (x1 * x3 + y1 * y3 + z1 * z3) /
-        (Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2) + Math.pow(z1, 2)) *
-          Math.sqrt(Math.pow(x3, 2) + Math.pow(y3, 2) + Math.pow(z3, 2)))
+      (Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2) + Math.pow(z1, 2)) *
+        Math.sqrt(Math.pow(x3, 2) + Math.pow(y3, 2) + Math.pow(z3, 2)))
     );
     angle = angle * (180 / Math.PI);
     return angle;
