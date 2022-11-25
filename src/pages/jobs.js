@@ -17,7 +17,7 @@ const Card = (props) => {
       <div className="card-body">
         <h5 className="card-title">{props.data.nombre}</h5>
         <p className="card-text">{props.data.descripcion}</p>
-        <button className="boton vermas">Ver mas</button>
+        <a href={props.data.link} target="_blank" rel="noreferrer"><button className="boton vermas">Ver mas</button></a>
       </div>
     </div>
   );
